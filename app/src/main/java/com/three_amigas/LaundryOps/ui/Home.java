@@ -5,6 +5,7 @@
 package com.three_amigas.LaundryOps.ui;
 
 import javax.swing.table.DefaultTableModel;
+import models.Customer;
 
 public class Home extends javax.swing.JFrame {
     private final DefaultTableModel model;
@@ -15,7 +16,7 @@ public class Home extends javax.swing.JFrame {
         initComponents();
         String[][] data = new String[0][0];
 
-        String[] columnNames = {"No.", "Name", "Number", "Email", "Date"};
+        String[] columnNames = {"Priority", "Name", "Number", "Email", "Date"};
 
         model = new DefaultTableModel(data, columnNames) {
             @Override
@@ -26,10 +27,29 @@ public class Home extends javax.swing.JFrame {
         jTable1.setModel(model);
     }
     
-    public void addRowToTable(String name, String number, String email, String date) {
-        System.out.print("Add to row");
+    public void addRowToQueue(Customer customer) {
         int rowCount = model.getRowCount();
-        model.addRow(new Object[]{rowCount + 1, name, number, email, date});
+        model.addRow(new Object[]{rowCount + 1, customer.getName(), customer.getNumber(), customer.getEmail(), customer.getDate()});
+    }
+
+    public void addRowToPriorityQueue(Customer customer) {
+        Object[] newRow = {1, customer.getName(), customer.getNumber(), customer.getEmail(), customer.getDate()};
+        
+        for (int i = 0; i < model.getRowCount(); i++) {
+            int currentPriority = (int) model.getValueAt(i, 0);
+            model.setValueAt(currentPriority + 1, i, 0);
+        }
+
+        model.insertRow(0, newRow);
+    }
+
+    public void removeFirstRowFromQueue() {
+        if (model.getRowCount() > 0) {
+            model.removeRow(0);
+            for (int i = 0; i < model.getRowCount(); i++) {
+                model.setValueAt(i + 1, i, 0);
+            }
+        }
     }
 
     /**
