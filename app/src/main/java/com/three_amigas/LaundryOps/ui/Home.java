@@ -5,7 +5,7 @@
 package com.three_amigas.LaundryOps.ui;
 
 import javax.swing.table.DefaultTableModel;
-import models.Customer;
+import com.three_amigas.LaundryOps.Models.Customer;
 
 public class Home extends javax.swing.JFrame {
     private final DefaultTableModel model;
