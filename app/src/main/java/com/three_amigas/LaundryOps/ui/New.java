@@ -7,10 +7,6 @@ package com.three_amigas.LaundryOps.ui;
 import javax.swing.JOptionPane;
 import com.three_amigas.LaundryOps.Models.Customer;
 
-/**
- *
- * @author Kim Eduard Saludes
- */
 public class New extends javax.swing.JDialog {
     private final Home home;
     /**
@@ -147,9 +143,9 @@ public class New extends javax.swing.JDialog {
             Customer customer = new Customer(name, number, email, date);
             
             if (jCheckBox2.isSelected()) {
-                home.addRowToPriorityQueue(customer);
+                this.home.queue.addRowToPriorityQueue(customer);
             } else {
-                home.addRowToQueue(customer);
+                this.home.queue.addRowToQueue(customer);
             }
             dispose();
         }

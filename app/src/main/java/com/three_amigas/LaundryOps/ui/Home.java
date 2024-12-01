@@ -4,11 +4,13 @@
  */
 package com.three_amigas.LaundryOps.ui;
 
+import com.three_amigas.LaundryOps.Queue;
 import javax.swing.table.DefaultTableModel;
-import com.three_amigas.LaundryOps.Models.Customer;
 
 public class Home extends javax.swing.JFrame {
-    private final DefaultTableModel model;
+    public final DefaultTableModel model;
+    public final Queue queue;
+    
     /**
      * Creates new form Home
      */
@@ -24,32 +26,9 @@ public class Home extends javax.swing.JFrame {
                 return false;
             }
         };
-        jTable1.setModel(model);
-    }
-    
-    public void addRowToQueue(Customer customer) {
-        int rowCount = model.getRowCount();
-        model.addRow(new Object[]{rowCount + 1, customer.getName(), customer.getNumber(), customer.getEmail(), customer.getDate()});
-    }
-
-    public void addRowToPriorityQueue(Customer customer) {
-        Object[] newRow = {1, customer.getName(), customer.getNumber(), customer.getEmail(), customer.getDate()};
+        queue = new Queue(model);
         
-        for (int i = 0; i < model.getRowCount(); i++) {
-            int currentPriority = (int) model.getValueAt(i, 0);
-            model.setValueAt(currentPriority + 1, i, 0);
-        }
-
-        model.insertRow(0, newRow);
-    }
-
-    public void removeFirstRowFromQueue() {
-        if (model.getRowCount() > 0) {
-            model.removeRow(0);
-            for (int i = 0; i < model.getRowCount(); i++) {
-                model.setValueAt(i + 1, i, 0);
-            }
-        }
+        jTable1.setModel(model);
     }
 
     /**
@@ -178,15 +157,11 @@ public class Home extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Home.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Home.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Home.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Home.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        
         //</editor-fold>
 
         /* Create and display the form */

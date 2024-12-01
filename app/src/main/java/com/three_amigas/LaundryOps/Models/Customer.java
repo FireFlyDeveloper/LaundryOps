@@ -4,10 +4,6 @@
  */
 package com.three_amigas.LaundryOps.Models;
 
-/**
- *
- * @author Kim Eduard Saludes
- */
 public class Customer {
     private final String name;
     private final String number;
