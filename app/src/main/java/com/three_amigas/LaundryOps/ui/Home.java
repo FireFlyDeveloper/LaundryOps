@@ -8,7 +8,7 @@ import com.three_amigas.LaundryOps.Queue;
 import javax.swing.table.DefaultTableModel;
 
 public class Home extends javax.swing.JFrame {
-    public final DefaultTableModel model;
+    private final DefaultTableModel model;
     public final Queue queue;
     
     /**
