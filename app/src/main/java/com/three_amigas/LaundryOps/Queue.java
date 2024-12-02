@@ -16,11 +16,11 @@ public class Queue {
     
     public void addRowToQueue(Customer customer) {
         int rowCount = this.model.getRowCount();
-        this.model.addRow(new Object[]{rowCount + 1, customer.getName(), customer.getNumber(), customer.getEmail(), customer.getDate()});
+        this.model.addRow(new Object[]{rowCount + 1, customer.name, customer.number, customer.email, customer.date});
     }
 
     public void addRowToPriorityQueue(Customer customer) {
-        Object[] newRow = {1, customer.getName(), customer.getNumber(), customer.getEmail(), customer.getDate()};
+        Object[] newRow = {1, customer.name, customer.number, customer.email, customer.date};
         
         for (int i = 0; i < this.model.getRowCount(); i++) {
             int currentPriority = (int) this.model.getValueAt(i, 0);

@@ -140,7 +140,7 @@ public class New extends javax.swing.JDialog {
             String email = jFormattedTextField3.getText();
             String date = jFormattedTextField4.getText();
             
-            Customer customer = new Customer(name, number, email, date);
+            Customer customer = new Customer(name, number, email, date, false, false);
             
             if (jCheckBox2.isSelected()) {
                 this.home.queue.addRowToPriorityQueue(customer);
