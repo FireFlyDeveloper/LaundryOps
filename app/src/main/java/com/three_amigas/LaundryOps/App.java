@@ -3,14 +3,14 @@
  */
 package com.three_amigas.LaundryOps;
 
-import com.three_amigas.LaundryOps.ui.Home;
+import com.three_amigas.LaundryOps.ui.Login;
 import javax.swing.JFrame;
 
 public class App {
 
     public static void main(String[] args) {
-        Home home = new Home();
-        home.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        home.setVisible(true);
+        Login login = new Login();
+        login.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        login.setVisible(true);
     }
 }
