@@ -15,7 +15,6 @@ public class Queue {
         loadExistingData();
     }
 
-    // Load existing data from the database into the table model
     private void loadExistingData() {
         List<SQLquery> data = this.crud.read();
         for (SQLquery sql : data) {
@@ -37,12 +36,10 @@ public class Queue {
     public void addRowToPriorityQueue(Customer customer) {
         Object[] newRow = {1, customer.name, customer.number, customer.email, customer.date};
 
-        // Adjust priorities in the table and the database
         for (int i = 0; i < this.model.getRowCount(); i++) {
             int currentPriority = (int) this.model.getValueAt(i, 0);
             this.model.setValueAt(currentPriority + 1, i, 0);
 
-            // Update priority in the database
             int id = (int) this.model.getValueAt(i, 0);
             SQLquery sql = new SQLquery(id, 
                                          (String) this.model.getValueAt(i, 1), 
@@ -53,7 +50,6 @@ public class Queue {
             this.crud.update(sql);
         }
 
-        // Add the new row to the table and the database
         SQLquery newSql = new SQLquery(this.model.getRowCount() + 1, customer.name, customer.number, customer.email, customer.date, false, false);
         if (this.crud.create(newSql)) {
             this.model.insertRow(0, newRow);
@@ -66,7 +62,6 @@ public class Queue {
         if (this.crud.deleteLastInserted()) {
             this.model.removeRow(0);
 
-            // Recalculate priorities for remaining rows
             for (int i = 0; i < this.model.getRowCount(); i++) {
                 this.model.setValueAt(i + 1, i, 0);
             }

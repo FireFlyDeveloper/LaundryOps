@@ -99,7 +99,6 @@ public class CRUD {
     }
 
     public boolean deleteLastInserted() {
-        // Step 1: Select the last inserted ID
         String selectQuery = "SELECT id FROM users ORDER BY id DESC LIMIT 1";
         int lastInsertedId = -1;
 
@@ -116,7 +115,6 @@ public class CRUD {
             return false;
         }
 
-        // Step 2: Delete the last inserted record
         if (lastInsertedId != -1) {
             String deleteQuery = "DELETE FROM users WHERE id = ?";
             try (Connection connection = this.connect();
