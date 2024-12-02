@@ -98,21 +98,44 @@ public class CRUD {
         return false;
     }
 
-    public boolean delete(int id) {
-        String query = "DELETE FROM users WHERE id = ?";
-        try (Connection connection = this.connect(); 
-             PreparedStatement statement = connection.prepareStatement(query)) {
-             
-            statement.setInt(1, id);
-            
-            int rowsDeleted = statement.executeUpdate();
-            if (rowsDeleted > 0) {
-                System.out.println("User with ID " + id + " was deleted successfully!");
-                return true;
+    public boolean deleteLastInserted() {
+        // Step 1: Select the last inserted ID
+        String selectQuery = "SELECT id FROM users ORDER BY id DESC LIMIT 1";
+        int lastInsertedId = -1;
+
+        try (Connection connection = this.connect();
+             PreparedStatement selectStatement = connection.prepareStatement(selectQuery);
+             ResultSet resultSet = selectStatement.executeQuery()) {
+
+            if (resultSet.next()) {
+                lastInsertedId = resultSet.getInt("id");
             }
+
         } catch (SQLException e) {
-            System.err.println("Error during DELETE operation: " + e.getMessage());
+            System.err.println("Error during SELECT operation: " + e.getMessage());
+            return false;
         }
+
+        // Step 2: Delete the last inserted record
+        if (lastInsertedId != -1) {
+            String deleteQuery = "DELETE FROM users WHERE id = ?";
+            try (Connection connection = this.connect();
+                 PreparedStatement deleteStatement = connection.prepareStatement(deleteQuery)) {
+
+                deleteStatement.setInt(1, lastInsertedId);
+
+                int rowsDeleted = deleteStatement.executeUpdate();
+                if (rowsDeleted > 0) {
+                    System.out.println("Last inserted record was deleted successfully.");
+                    return true;
+                } else {
+                    System.out.println("No records found to delete.");
+                }
+            } catch (SQLException e) {
+                System.err.println("Error during DELETE operation: " + e.getMessage());
+            }
+        }
+
         return false;
     }
 }

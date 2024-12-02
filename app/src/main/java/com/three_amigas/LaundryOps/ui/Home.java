@@ -4,10 +4,7 @@
  */
 package com.three_amigas.LaundryOps.ui;
 
-import com.three_amigas.LaundryOps.CRUD;
-import com.three_amigas.LaundryOps.Models.SQLquery;
 import com.three_amigas.LaundryOps.Queue;
-import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
 public class Home extends javax.swing.JFrame {
@@ -20,24 +17,7 @@ public class Home extends javax.swing.JFrame {
     public Home() {
         initComponents();
 
-        CRUD crud = new CRUD();
-
-        // Read the data from the database
-        List<SQLquery> records = crud.read();
-
-        // Prepare the data array based on the records retrieved from the database
-        String[][] data = new String[records.size()][5];  // 5 columns for id, name, number, email, date
-
-        for (int i = 0; i < records.size(); i++) {
-            SQLquery record = records.get(i);
-
-            // Populate the data array with relevant fields
-            data[i][0] = String.valueOf(record.id);  // ID
-            data[i][1] = record.name;  // Name
-            data[i][2] = record.number;  // Number
-            data[i][3] = record.email;  // Email
-            data[i][4] = record.date;  // Date
-        }
+        String[][] data = new String[0][0];
 
         // Column names for the table
         String[] columnNames = {"ID", "Name", "Number", "Email", "Date"};
