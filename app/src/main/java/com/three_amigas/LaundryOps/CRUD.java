@@ -73,6 +73,22 @@ public class CRUD {
         }
         return users;
     }
+    
+    public int getLastInsertedId() {
+        String query = "SELECT MAX(id) AS max_id FROM users";
+        int lastId = 0;
+        try (Connection connection = this.connect();
+             PreparedStatement statement = connection.prepareStatement(query);
+             ResultSet resultSet = statement.executeQuery()) {
+
+            if (resultSet.next()) {
+                lastId = resultSet.getInt("max_id");
+            }
+        } catch (SQLException e) {
+            System.err.println("Error during SELECT operation: " + e.getMessage());
+        }
+        return lastId;
+    }
 
     public boolean update(SQLquery sql) {
         String query = "UPDATE users SET name = ?, number = ?, email = ?, date = ?, done = ?, mailed = ? WHERE id = ?";
@@ -134,6 +150,24 @@ public class CRUD {
             }
         }
 
+        return false;
+    }
+    
+    public boolean clear() {
+        String query = "DELETE FROM users";
+        try (Connection connection = this.connect();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+
+            int rowsDeleted = statement.executeUpdate();
+            if (rowsDeleted > 0) {
+                System.out.println("All records have been cleared.");
+                return true;
+            } else {
+                System.out.println("No records found to delete.");
+            }
+        } catch (SQLException e) {
+            System.err.println("Error during CLEAR operation: " + e.getMessage());
+        }
         return false;
     }
 }

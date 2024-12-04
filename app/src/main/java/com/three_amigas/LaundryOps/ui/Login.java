@@ -5,7 +5,6 @@
 package com.three_amigas.LaundryOps.ui;
 
 import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
 
 public class Login extends javax.swing.JFrame {
 

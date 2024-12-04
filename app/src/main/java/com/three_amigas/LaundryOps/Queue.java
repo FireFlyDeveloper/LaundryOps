@@ -7,10 +7,12 @@ import java.util.List;
 
 public class Queue {
     private final DefaultTableModel model;
+    private final DefaultTableModel model1;
     private final CRUD crud;
 
-    public Queue(DefaultTableModel model) {
+    public Queue(DefaultTableModel model, DefaultTableModel model1) {
         this.model = model;
+        this.model1 = model1;
         this.crud = new CRUD();
         loadExistingData();
     }
@@ -18,12 +20,16 @@ public class Queue {
     private void loadExistingData() {
         List<SQLquery> data = this.crud.read();
         for (SQLquery sql : data) {
-            this.model.addRow(new Object[]{sql.id, sql.name, sql.number, sql.email, sql.date});
+            if (!sql.done) {
+                this.model.insertRow(0, new Object[]{sql.id, sql.name, sql.number, sql.email, sql.date});
+            } else {
+                this.model1.insertRow(0, new Object[]{sql.id, sql.name, sql.number, sql.email, sql.date});
+            }
         }
     }
 
     public void addRowToQueue(Customer customer) {
-        int newId = this.model.getRowCount() + 1;
+        int newId = this.crud.getLastInsertedId() + 1;
 
         SQLquery sql = new SQLquery(newId, customer.name, customer.number, customer.email, customer.date, false, false);
         if (this.crud.create(sql)) {
@@ -34,23 +40,10 @@ public class Queue {
     }
 
     public void addRowToPriorityQueue(Customer customer) {
-        Object[] newRow = {1, customer.name, customer.number, customer.email, customer.date};
+        int isLast = this.crud.getLastInsertedId() + 1;
+        Object[] newRow = {isLast, customer.name, customer.number, customer.email, customer.date};
 
-        for (int i = 0; i < this.model.getRowCount(); i++) {
-            int currentPriority = (int) this.model.getValueAt(i, 0);
-            this.model.setValueAt(currentPriority + 1, i, 0);
-
-            int id = (int) this.model.getValueAt(i, 0);
-            SQLquery sql = new SQLquery(id, 
-                                         (String) this.model.getValueAt(i, 1), 
-                                         (String) this.model.getValueAt(i, 2), 
-                                         (String) this.model.getValueAt(i, 3), 
-                                         (String) this.model.getValueAt(i, 4), 
-                                         false, false);
-            this.crud.update(sql);
-        }
-
-        SQLquery newSql = new SQLquery(this.model.getRowCount() + 1, customer.name, customer.number, customer.email, customer.date, false, false);
+        SQLquery newSql = new SQLquery(isLast, customer.name, customer.number, customer.email, customer.date, false, false);
         if (this.crud.create(newSql)) {
             this.model.insertRow(0, newRow);
         } else {
@@ -59,14 +52,33 @@ public class Queue {
     }
 
     public void removeFirstRowFromQueue() {
-        if (this.crud.deleteLastInserted()) {
-            this.model.removeRow(0);
-
-            for (int i = 0; i < this.model.getRowCount(); i++) {
-                this.model.setValueAt(i + 1, i, 0);
+        if (this.model.getRowCount() > 0) {
+            int rowIndex = 0;
+            
+            SQLquery sql = new SQLquery((int) model.getValueAt(rowIndex, 0), 
+                                         (String) this.model.getValueAt(rowIndex, 1), 
+                                         (String) this.model.getValueAt(rowIndex, 2), 
+                                         (String) this.model.getValueAt(rowIndex, 3), 
+                                         (String) this.model.getValueAt(rowIndex, 4), 
+                                         true, true);
+            
+            this.model1.insertRow(0, new Object[] { 
+                model.getValueAt(rowIndex, 0), 
+                model.getValueAt(rowIndex, 1), 
+                model.getValueAt(rowIndex, 2), 
+                model.getValueAt(rowIndex, 3), 
+                model.getValueAt(rowIndex, 4) 
+            });
+            
+            if(this.crud.update(sql)) {
+                this.model.removeRow(0);
+                int isLast = this.crud.getLastInsertedId();
+                for (int i = 0; i < this.model.getRowCount(); i++) {
+                    this.model.setValueAt(i, isLast, 0);
+                }
+            } else {
+                System.err.println("Failed to remove row from the database.");
             }
-        } else {
-            System.err.println("Failed to remove row from the database.");
         }
     }
 }
