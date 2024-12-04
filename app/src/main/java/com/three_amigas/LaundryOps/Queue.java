@@ -70,6 +70,9 @@ public class Queue {
                 model.getValueAt(rowIndex, 4) 
             });
             
+            SMTPClient smtp = new SMTPClient();
+            smtp.sendMail((String) model.getValueAt(rowIndex, 3), (String) model.getValueAt(rowIndex, 1));
+            
             if(this.crud.update(sql)) {
                 this.model.removeRow(0);
                 int isLast = this.crud.getLastInsertedId();
