@@ -1,12 +1,17 @@
 package com.three_amigas.LaundryOps.ui;
 
+import com.three_amigas.LaundryOps.CRUD;
 import com.three_amigas.LaundryOps.PriorityRowRenderer;
 import com.three_amigas.LaundryOps.Queue;
 import com.three_amigas.LaundryOps.RowRenderer;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import javax.swing.JTable;
+import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
+import javax.swing.table.TableRowSorter;
 
 public class Home extends javax.swing.JFrame {
     public final Queue queue;
@@ -47,8 +52,14 @@ public class Home extends javax.swing.JFrame {
         hideIdColumn(jTable1);
         hideIdColumn(jTable2);
         
-        increaseColumnSize(jTable1);
-        increaseColumnSize(jTable2);
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                queue.shutdownExecutor();
+                System.out.println("Executor service shut down gracefully.");
+                dispose();
+            }
+        });
     }
     
     private void hideIdColumn(JTable table) {
@@ -60,17 +71,6 @@ public class Home extends javax.swing.JFrame {
         idColumn.setPreferredWidth(0);
 
         idColumn.setHeaderRenderer(null);
-    }
-    
-    private void increaseColumnSize(JTable table) {
-        TableColumnModel columnModel = table.getColumnModel();
-
-        // Set custom column widths
-        columnModel.getColumn(0).setPreferredWidth(50);  // ID column width
-        columnModel.getColumn(1).setPreferredWidth(150); // Name column width
-        columnModel.getColumn(2).setPreferredWidth(100); // Number column width
-        columnModel.getColumn(3).setPreferredWidth(200); // Email column width
-        columnModel.getColumn(4).setPreferredWidth(100); // Date column width
     }
 
     /**
@@ -97,6 +97,7 @@ public class Home extends javax.swing.JFrame {
         jFormattedTextField3 = new javax.swing.JFormattedTextField();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
+        jButton6 = new javax.swing.JButton();
 
         jButton5.setText("jButton5");
 
@@ -167,8 +168,25 @@ public class Home extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTable2);
 
         jButton3.setText("Filter");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton4.setText("Clear Filter");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
+        jButton6.setText("Clear");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -179,7 +197,7 @@ public class Home extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 468, Short.MAX_VALUE)
+                        .addComponent(jScrollPane2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 395, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -196,6 +214,8 @@ public class Home extends javax.swing.JFrame {
                         .addComponent(jButton1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButton2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton6)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -211,7 +231,8 @@ public class Home extends javax.swing.JFrame {
                     .addComponent(jButton3)
                     .addComponent(jButton4)
                     .addComponent(jButton1)
-                    .addComponent(jButton2))
+                    .addComponent(jButton2)
+                    .addComponent(jButton6))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 484, Short.MAX_VALUE)
@@ -243,6 +264,32 @@ public class Home extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         this.queue.removeFirstRowFromQueue();
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        
+        this.queue.loadData();
+        String day = jFormattedTextField1.getText().trim();
+        String month = jFormattedTextField2.getText().trim();
+        String year = jFormattedTextField3.getText().trim();
+
+        String filterDate = day + "/" + month + "/" + year;
+
+        TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(model);
+        jTable1.setRowSorter(sorter);
+
+        sorter.setRowFilter(RowFilter.regexFilter(filterDate, 4));
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        this.queue.loadData();
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        CRUD crud = new CRUD();
+        crud.clear();
+        model.setRowCount(0);
+        model1.setRowCount(0);
+    }//GEN-LAST:event_jButton6ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -279,6 +326,7 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
     private javax.swing.JFormattedTextField jFormattedTextField1;
     private javax.swing.JFormattedTextField jFormattedTextField2;
     private javax.swing.JFormattedTextField jFormattedTextField3;

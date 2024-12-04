@@ -4,16 +4,20 @@ import com.three_amigas.LaundryOps.Models.Customer;
 import com.three_amigas.LaundryOps.Models.SQLquery;
 import javax.swing.table.DefaultTableModel;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class Queue {
     private final DefaultTableModel model;
     private final DefaultTableModel model1;
     private final CRUD crud;
+    private final ExecutorService emailExecutor;
 
     public Queue(DefaultTableModel model, DefaultTableModel model1) {
         this.model = model;
         this.model1 = model1;
         this.crud = new CRUD();
+        this.emailExecutor = Executors.newFixedThreadPool(5);
         loadExistingData();
     }
 
@@ -26,6 +30,29 @@ public class Queue {
                 this.model1.insertRow(0, new Object[]{sql.id, sql.name, sql.number, sql.email, sql.date});
             }
         }
+    }
+    
+    public void loadData() {
+        System.out.println("load");
+        int rowCount = this.model.getRowCount();
+
+        Object[][] rows = new Object[rowCount][];
+        for (int i = 0; i < rowCount; i++) {
+            rows[i] = new Object[]{
+                this.model.getValueAt(i, 0),
+                this.model.getValueAt(i, 1),
+                this.model.getValueAt(i, 2),
+                this.model.getValueAt(i, 3),
+                this.model.getValueAt(i, 4)
+            };
+        }
+
+        this.model.setRowCount(0);
+
+        for (Object[] row : rows) {
+            this.model.addRow(row);
+        }
+        System.out.println("loaded");
     }
 
     public void addRowToQueue(Customer customer) {
@@ -70,18 +97,21 @@ public class Queue {
                 model.getValueAt(rowIndex, 4) 
             });
             
-            SMTPClient smtp = new SMTPClient();
-            smtp.sendMail((String) model.getValueAt(rowIndex, 3), (String) model.getValueAt(rowIndex, 1));
+            
+            emailExecutor.submit(() -> {
+                SMTPClient smtp = new SMTPClient();
+                smtp.sendMail((String) model.getValueAt(rowIndex, 3), (String) model.getValueAt(rowIndex, 1));
+            });
             
             if(this.crud.update(sql)) {
                 this.model.removeRow(0);
-                int isLast = this.crud.getLastInsertedId();
-                for (int i = 0; i < this.model.getRowCount(); i++) {
-                    this.model.setValueAt(i, isLast, 0);
-                }
             } else {
                 System.err.println("Failed to remove row from the database.");
             }
         }
+    }
+    
+    public void shutdownExecutor() {
+        emailExecutor.shutdown();
     }
 }
