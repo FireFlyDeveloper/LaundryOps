@@ -31,29 +31,6 @@ public class Queue {
             }
         }
     }
-    
-    public void loadData() {
-        System.out.println("load");
-        int rowCount = this.model.getRowCount();
-
-        Object[][] rows = new Object[rowCount][];
-        for (int i = 0; i < rowCount; i++) {
-            rows[i] = new Object[]{
-                this.model.getValueAt(i, 0),
-                this.model.getValueAt(i, 1),
-                this.model.getValueAt(i, 2),
-                this.model.getValueAt(i, 3),
-                this.model.getValueAt(i, 4)
-            };
-        }
-
-        this.model.setRowCount(0);
-
-        for (Object[] row : rows) {
-            this.model.addRow(row);
-        }
-        System.out.println("loaded");
-    }
 
     public void addRowToQueue(Customer customer) {
         int newId = this.crud.getLastInsertedId() + 1;

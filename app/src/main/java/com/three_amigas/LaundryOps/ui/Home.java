@@ -266,8 +266,7 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        
-        this.queue.loadData();
+  
         String day = jFormattedTextField1.getText().trim();
         String month = jFormattedTextField2.getText().trim();
         String year = jFormattedTextField3.getText().trim();
@@ -281,7 +280,10 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        this.queue.loadData();
+        TableRowSorter<DefaultTableModel> sorter = (TableRowSorter<DefaultTableModel>) jTable1.getRowSorter();
+        if (sorter != null) {
+            sorter.setRowFilter(null);
+        }
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
