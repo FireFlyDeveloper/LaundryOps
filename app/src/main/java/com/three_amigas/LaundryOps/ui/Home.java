@@ -3,11 +3,18 @@ package com.three_amigas.LaundryOps.ui;
 import com.three_amigas.LaundryOps.CRUD;
 import com.three_amigas.LaundryOps.PriorityRowRenderer;
 import com.three_amigas.LaundryOps.Queue;
+import com.three_amigas.LaundryOps.RoundedBorder;
+import com.three_amigas.LaundryOps.RoundedBorderForFormattedTextField;
 import com.three_amigas.LaundryOps.RowRenderer;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Font;
+import java.awt.Insets;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.JTable;
 import javax.swing.RowFilter;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
@@ -23,6 +30,8 @@ public class Home extends javax.swing.JFrame {
      */
     public Home() {
         initComponents();
+        
+        getContentPane().setBackground(new Color(45, 45, 45));
 
         String[][] data = new String[0][0];
 
@@ -43,14 +52,33 @@ public class Home extends javax.swing.JFrame {
         };
 
         queue = new Queue(model, model1);
-
+        
         jTable1.setModel(model);
         jTable1.setDefaultRenderer(Object.class, new PriorityRowRenderer());
         jTable2.setModel(model1);
         jTable2.setDefaultRenderer(Object.class, new RowRenderer());
         
+        TableColumnModel columnModel = jTable1.getColumnModel();
+        TableColumn nameColumn = columnModel.getColumn(1);
+        
+        // Set custom renderer for the "Name" column to change the font
+        nameColumn.setCellRenderer(new DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                // Get the default renderer component
+                Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+
+                // Set custom font (e.g., Arial, 18px)
+                c.setFont(new Font("Arial", Font.PLAIN, 18));
+
+                return c;
+            }
+        });
+        
         hideIdColumn(jTable1);
         hideIdColumn(jTable2);
+        
+        this.applyCustomDesign();
         
         addWindowListener(new WindowAdapter() {
             @Override
@@ -61,7 +89,7 @@ public class Home extends javax.swing.JFrame {
             }
         });
     }
-    
+
     private void hideIdColumn(JTable table) {
         TableColumnModel columnModel = table.getColumnModel();
         TableColumn idColumn = columnModel.getColumn(0);
@@ -71,6 +99,20 @@ public class Home extends javax.swing.JFrame {
         idColumn.setPreferredWidth(0);
 
         idColumn.setHeaderRenderer(null);
+    }
+
+    private void applyCustomDesign() {
+        for (javax.swing.JButton button : new javax.swing.JButton[]{jButton1, jButton2, jButton3, jButton4, jButton6}) {
+            button.setContentAreaFilled(false);
+            button.setFocusPainted(false);
+            button.setBorder(new RoundedBorder(20));
+        }
+        
+        for (javax.swing.JFormattedTextField textField : new javax.swing.JFormattedTextField[]{jFormattedTextField1, jFormattedTextField2, jFormattedTextField3}) {
+            textField.setMargin(new Insets(5, 5, 5, 5));
+            textField.setOpaque(false);
+            textField.setBorder(new RoundedBorderForFormattedTextField(20));
+        }
     }
 
     /**
@@ -103,12 +145,12 @@ public class Home extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel2.setBackground(new java.awt.Color(167, 143, 252));
+        jPanel2.setBackground(new java.awt.Color(173, 216, 230));
 
         jLabel1.setBackground(new java.awt.Color(255, 255, 255));
         jLabel1.setFont(new java.awt.Font("Arial Black", 0, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("LaundryOps");
+        jLabel1.setText("Washing Well");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -167,6 +209,12 @@ public class Home extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(jTable2);
 
+        jFormattedTextField1.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+
+        jFormattedTextField2.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+
+        jFormattedTextField3.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+
         jButton3.setText("Filter");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -196,25 +244,25 @@ public class Home extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jScrollPane2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 395, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jFormattedTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jFormattedTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jFormattedTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jFormattedTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButton3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton6)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
@@ -235,7 +283,7 @@ public class Home extends javax.swing.JFrame {
                     .addComponent(jButton6))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 484, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 479, Short.MAX_VALUE)
                     .addComponent(jScrollPane2))
                 .addContainerGap())
         );
