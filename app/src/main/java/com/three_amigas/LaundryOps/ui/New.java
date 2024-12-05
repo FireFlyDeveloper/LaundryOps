@@ -1,5 +1,6 @@
 package com.three_amigas.LaundryOps.ui;
 
+import com.three_amigas.LaundryOps.CapitalizeFirstLetters;
 import javax.swing.JOptionPane;
 import com.three_amigas.LaundryOps.Models.Customer;
 
@@ -145,23 +146,66 @@ public class New extends javax.swing.JDialog {
                 jFormattedTextField2.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please complete all the field.", "Input Required", JOptionPane.WARNING_MESSAGE);
         } else {
-            
             String name = jFormattedTextField5.getText();
+
+            CapitalizeFirstLetters cap = new CapitalizeFirstLetters();
+            String capitalizedName = cap.capitalizeFirst(name);
+
             String number = jFormattedTextField6.getText();
             String email = jFormattedTextField3.getText();
-            String year = jFormattedTextField4.getText();
-            String month = jFormattedTextField1.getText();
-            String day = jFormattedTextField2.getText();
-            
-            String date = year + "-" + month + "-" + day;
-            
-            Customer customer = new Customer(name, number, email, date, false, false);
-            
+
+            String yearStr = jFormattedTextField4.getText();
+            String monthStr = jFormattedTextField1.getText();
+            String dayStr = jFormattedTextField2.getText();
+
+            int year, month, day;
+            try {
+                year = Integer.parseInt(yearStr);
+                month = Integer.parseInt(monthStr);
+                day = Integer.parseInt(dayStr);
+
+                if (month < 1 || month > 12) {
+                    throw new IllegalArgumentException("Month must be between 1 and 12.");
+                }
+
+                if (day < 1 || day > 31) {
+                    throw new IllegalArgumentException("Day must be between 1 and 31.");
+                }
+
+                if ((month == 4 || month == 6 || month == 9 || month == 11) && day > 30) {
+                    throw new IllegalArgumentException("This month has only 30 days.");
+                }
+
+                if (month == 2) {
+                    if ((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0)) {
+                        if (day > 29) {
+                            throw new IllegalArgumentException("February in a leap year has only 29 days.");
+                        }
+                    } else {
+                        if (day > 28) {
+                            throw new IllegalArgumentException("February has only 28 days.");
+                        }
+                    }
+                }
+
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "Please enter valid numeric values for the date.", "Invalid Input", JOptionPane.ERROR_MESSAGE);
+                return;
+            } catch (IllegalArgumentException e) {
+                JOptionPane.showMessageDialog(this, e.getMessage(), "Invalid Date", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            String date = String.format("%04d-%02d-%02d", year, month, day);
+
+            Customer customer = new Customer(capitalizedName, number, email, date, false, false);
+
             if (jCheckBox2.isSelected()) {
                 this.home.queue.addRowToPriorityQueue(customer);
             } else {
                 this.home.queue.addRowToQueue(customer);
             }
+
             this.home.updateData();
             dispose();
         }

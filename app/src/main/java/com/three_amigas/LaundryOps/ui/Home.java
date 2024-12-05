@@ -62,8 +62,10 @@ public final class Home extends javax.swing.JFrame {
         
         jTable1.setModel(model);
         jTable1.setDefaultRenderer(Object.class, new RowRenderer());
+        jTable1.setRowHeight(30);
         jTable2.setModel(model1);
         jTable2.setDefaultRenderer(Object.class, new RowRenderer());
+        jTable2.setRowHeight(30);
         
         this.updateData();
         
@@ -123,19 +125,6 @@ public final class Home extends javax.swing.JFrame {
     private void updateDataAfterFilter(TableRowSorter<DefaultTableModel> sorter) {
         int visibleRowCount = sorter.getViewRowCount();
         jLabel14.setText(String.valueOf(visibleRowCount));
-
-        if (visibleRowCount > 0) {
-            int viewRowIndex = 0;
-            int modelRowIndex = sorter.convertRowIndexToModel(viewRowIndex);
-
-            String modelName = (String) model.getValueAt(modelRowIndex, 1);
-            String modelNumber = (String) model.getValueAt(modelRowIndex, 2);
-            jLabel11.setText(modelName);
-            jLabel13.setText(modelNumber);
-        } else {
-            jLabel11.setText("N/A");
-            jLabel13.setText("N/A");
-        }
     }
 
     /**
@@ -403,6 +392,7 @@ public final class Home extends javax.swing.JFrame {
         crud.clear();
         model.setRowCount(0);
         model1.setRowCount(0);
+        this.updateData();
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
@@ -447,6 +437,7 @@ public final class Home extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         this.queue.removeFirstRowFromQueue();
+        this.updateData();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
