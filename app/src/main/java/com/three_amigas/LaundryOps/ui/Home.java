@@ -7,14 +7,11 @@ import com.three_amigas.LaundryOps.RoundedBorder;
 import com.three_amigas.LaundryOps.RoundedBorderForFormattedTextField;
 import com.three_amigas.LaundryOps.RowRenderer;
 import java.awt.Color;
-import java.awt.Component;
-import java.awt.Font;
 import java.awt.Insets;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.JTable;
 import javax.swing.RowFilter;
-import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
@@ -30,6 +27,8 @@ public class Home extends javax.swing.JFrame {
      */
     public Home() {
         initComponents();
+        
+        this.applyCustomDesign();
         
         getContentPane().setBackground(new Color(45, 45, 45));
 
@@ -58,27 +57,8 @@ public class Home extends javax.swing.JFrame {
         jTable2.setModel(model1);
         jTable2.setDefaultRenderer(Object.class, new RowRenderer());
         
-        TableColumnModel columnModel = jTable1.getColumnModel();
-        TableColumn nameColumn = columnModel.getColumn(1);
-        
-        // Set custom renderer for the "Name" column to change the font
-        nameColumn.setCellRenderer(new DefaultTableCellRenderer() {
-            @Override
-            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-                // Get the default renderer component
-                Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-
-                // Set custom font (e.g., Arial, 18px)
-                c.setFont(new Font("Arial", Font.PLAIN, 18));
-
-                return c;
-            }
-        });
-        
         hideIdColumn(jTable1);
         hideIdColumn(jTable2);
-        
-        this.applyCustomDesign();
         
         addWindowListener(new WindowAdapter() {
             @Override

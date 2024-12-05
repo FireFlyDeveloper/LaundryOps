@@ -1,5 +1,8 @@
 package com.three_amigas.LaundryOps.ui;
 
+import com.three_amigas.LaundryOps.RoundedBorder;
+import com.three_amigas.LaundryOps.RoundedBorderForFormattedTextField;
+import java.awt.Insets;
 import javax.swing.JFrame;
 
 public class Login extends javax.swing.JFrame {
@@ -12,6 +15,20 @@ public class Login extends javax.swing.JFrame {
         setSize(400, 400);
         setLocationRelativeTo(null);
         setResizable(false);
+        
+        jFormattedTextField1.setMargin(new Insets(5, 5, 5, 5));
+        jFormattedTextField1.setOpaque(false);
+        jFormattedTextField1.setBorder(new RoundedBorderForFormattedTextField(20));
+        
+        jPasswordField1.setMargin(new Insets(5, 5, 5, 5));
+        jPasswordField1.setOpaque(false);
+        jPasswordField1.setBorder(new RoundedBorderForFormattedTextField(20));
+        
+        jButton1.setContentAreaFilled(false);
+        jButton1.setFocusPainted(false);
+        jButton1.setBorder(new RoundedBorder(20));
+        
+        
     }
 
     /**
