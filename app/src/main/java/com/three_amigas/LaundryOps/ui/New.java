@@ -162,6 +162,7 @@ public class New extends javax.swing.JDialog {
             } else {
                 this.home.queue.addRowToQueue(customer);
             }
+            this.home.updateData();
             dispose();
         }
     }//GEN-LAST:event_jButton1ActionPerformed
