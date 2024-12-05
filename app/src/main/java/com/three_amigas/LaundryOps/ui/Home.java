@@ -152,6 +152,7 @@ public class Home extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jButton1.setFont(new java.awt.Font("Poppins", 1, 12)); // NOI18N
         jButton1.setText("New");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -172,6 +173,7 @@ public class Home extends javax.swing.JFrame {
         ));
         jScrollPane2.setViewportView(jTable1);
 
+        jButton2.setFont(new java.awt.Font("Poppins", 1, 12)); // NOI18N
         jButton2.setText("Done");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -192,12 +194,16 @@ public class Home extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(jTable2);
 
-        jFormattedTextField1.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        jFormattedTextField1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jFormattedTextField1.setFont(new java.awt.Font("Poppins", 1, 18)); // NOI18N
 
-        jFormattedTextField2.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        jFormattedTextField2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jFormattedTextField2.setFont(new java.awt.Font("Poppins", 1, 18)); // NOI18N
 
-        jFormattedTextField3.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        jFormattedTextField3.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jFormattedTextField3.setFont(new java.awt.Font("Poppins", 1, 18)); // NOI18N
 
+        jButton3.setFont(new java.awt.Font("Poppins", 1, 12)); // NOI18N
         jButton3.setText("Filter");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -205,6 +211,7 @@ public class Home extends javax.swing.JFrame {
             }
         });
 
+        jButton4.setFont(new java.awt.Font("Poppins", 1, 12)); // NOI18N
         jButton4.setText("Clear Filter");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -212,6 +219,7 @@ public class Home extends javax.swing.JFrame {
             }
         });
 
+        jButton6.setFont(new java.awt.Font("Poppins", 1, 12)); // NOI18N
         jButton6.setText("Clear");
         jButton6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -266,7 +274,7 @@ public class Home extends javax.swing.JFrame {
                     .addComponent(jButton6))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 600, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 594, Short.MAX_VALUE)
                     .addComponent(jScrollPane2))
                 .addContainerGap())
         );
@@ -302,7 +310,7 @@ public class Home extends javax.swing.JFrame {
         String month = jFormattedTextField2.getText().trim();
         String year = jFormattedTextField3.getText().trim();
 
-        String filterDate = day + "/" + month + "/" + year;
+        String filterDate = day + "-" + month + "-" + year;
 
         TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(model);
         jTable1.setRowSorter(sorter);
@@ -315,6 +323,10 @@ public class Home extends javax.swing.JFrame {
         if (sorter != null) {
             sorter.setRowFilter(null);
         }
+        jFormattedTextField1.setText("");
+        jFormattedTextField2.setText("");
+        jFormattedTextField3.setText("");
+
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
