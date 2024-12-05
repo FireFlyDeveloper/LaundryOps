@@ -2,6 +2,7 @@ package com.three_amigas.LaundryOps.ui;
 
 import com.three_amigas.LaundryOps.BackgroundPanel;
 import com.three_amigas.LaundryOps.CRUD;
+import com.three_amigas.LaundryOps.HintTextFieldUtil;
 import com.three_amigas.LaundryOps.Queue;
 import com.three_amigas.LaundryOps.RowRenderer;
 import java.awt.Color;
@@ -68,6 +69,7 @@ public final class Home extends javax.swing.JFrame {
         jTable2.setRowHeight(30);
         
         this.updateData();
+        this.updateData2();
         
         hideIdColumn(jTable1);
         hideIdColumn(jTable2);
@@ -96,9 +98,21 @@ public final class Home extends javax.swing.JFrame {
     }
 
     private void applyCustomDesign() {
-        for (javax.swing.JFormattedTextField textField : new javax.swing.JFormattedTextField[]{jFormattedTextField1, jFormattedTextField2, jFormattedTextField3}) {
+        for (javax.swing.JFormattedTextField textField : new javax.swing.JFormattedTextField[]{jFormattedTextField1, jFormattedTextField2, jFormattedTextField3, jFormattedTextField4, jFormattedTextField5, jFormattedTextField6}) {
             textField.setBorder(new EmptyBorder(5, 0, 5, 0));
         }
+        
+//        for (javax.swing.JFormattedTextField textField : new javax.swing.JFormattedTextField[]{jFormattedTextField1, jFormattedTextField4}) {
+//            HintTextFieldUtil.addHint(textField, "Year");
+//        }
+//        
+//        for (javax.swing.JFormattedTextField textField : new javax.swing.JFormattedTextField[]{jFormattedTextField2, jFormattedTextField5}) {
+//            HintTextFieldUtil.addHint(textField, "Month");
+//        }
+//        
+//        for (javax.swing.JFormattedTextField textField : new javax.swing.JFormattedTextField[]{jFormattedTextField3, jFormattedTextField6}) {
+//            HintTextFieldUtil.addHint(textField, "Day");
+//        }
     }
     
     public void updateData() {
@@ -122,9 +136,29 @@ public final class Home extends javax.swing.JFrame {
         }
     }
     
+    public void updateData2() {
+         int modelCount = model1.getRowCount();
+        jLabel22.setText(String.valueOf(modelCount));
+
+        if (modelCount > 0) {
+            String modelName = (String) model1.getValueAt(0, 1);
+            String modelNumber = (String) model1.getValueAt(0, 2);
+            jLabel19.setText(modelName);
+            jLabel20.setText(modelNumber);
+        } else {
+            jLabel19.setText("N/A");
+            jLabel20.setText("N/A");
+        }
+    }
+    
     private void updateDataAfterFilter(TableRowSorter<DefaultTableModel> sorter) {
         int visibleRowCount = sorter.getViewRowCount();
         jLabel14.setText(String.valueOf(visibleRowCount));
+    }
+    
+    private void updateDataAfterFilter2(TableRowSorter<DefaultTableModel> sorter) {
+        int visibleRowCount = sorter.getViewRowCount();
+        jLabel22.setText(String.valueOf(visibleRowCount));
     }
 
     /**
@@ -152,12 +186,22 @@ public final class Home extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
+        jLabel19 = new javax.swing.JLabel();
+        jLabel21 = new javax.swing.JLabel();
+        jLabel20 = new javax.swing.JLabel();
+        jLabel22 = new javax.swing.JLabel();
+        jLabel18 = new javax.swing.JLabel();
         jPanel9 = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
+        jFormattedTextField4 = new javax.swing.JFormattedTextField();
+        jFormattedTextField5 = new javax.swing.JFormattedTextField();
+        jFormattedTextField6 = new javax.swing.JFormattedTextField();
+        jButton7 = new javax.swing.JButton();
+        jButton8 = new javax.swing.JButton();
 
         jButton5.setText("jButton5");
 
@@ -249,15 +293,52 @@ public final class Home extends javax.swing.JFrame {
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Washing Well");
 
+        jLabel19.setFont(new java.awt.Font("Poppins", 1, 18)); // NOI18N
+        jLabel19.setText("N/A");
+
+        jLabel21.setFont(new java.awt.Font("Blank's Script Personal Use", 1, 36)); // NOI18N
+        jLabel21.setText("Total :");
+
+        jLabel20.setFont(new java.awt.Font("Poppins", 1, 18)); // NOI18N
+        jLabel20.setText("N/A");
+
+        jLabel22.setFont(new java.awt.Font("Poppins", 1, 48)); // NOI18N
+        jLabel22.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel22.setText("0");
+
+        jLabel18.setFont(new java.awt.Font("Blank's Script Personal Use", 1, 36)); // NOI18N
+        jLabel18.setText("Recent :");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 473, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(0, 29, Short.MAX_VALUE)
+                .addComponent(jLabel18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel20, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel21)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel22, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel20)
+                        .addComponent(jLabel18)))
+                .addContainerGap())
         );
 
         jPanel9.setFont(new java.awt.Font("Poppins", 1, 18)); // NOI18N
@@ -276,7 +357,7 @@ public final class Home extends javax.swing.JFrame {
 
         jLabel14.setFont(new java.awt.Font("Poppins", 1, 48)); // NOI18N
         jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel14.setText("N/A");
+        jLabel14.setText("0");
 
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
@@ -293,7 +374,7 @@ public final class Home extends javax.swing.JFrame {
                 .addComponent(jLabel12)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -310,6 +391,34 @@ public final class Home extends javax.swing.JFrame {
                         .addComponent(jLabel10)))
                 .addContainerGap())
         );
+
+        jFormattedTextField4.setBorder(null);
+        jFormattedTextField4.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jFormattedTextField4.setFont(new java.awt.Font("Poppins", 1, 18)); // NOI18N
+
+        jFormattedTextField5.setBorder(null);
+        jFormattedTextField5.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jFormattedTextField5.setFont(new java.awt.Font("Poppins", 1, 18)); // NOI18N
+
+        jFormattedTextField6.setBorder(null);
+        jFormattedTextField6.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jFormattedTextField6.setFont(new java.awt.Font("Poppins", 1, 18)); // NOI18N
+
+        jButton7.setFont(new java.awt.Font("Poppins", 1, 12)); // NOI18N
+        jButton7.setText("Filter");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
+
+        jButton8.setFont(new java.awt.Font("Poppins", 1, 12)); // NOI18N
+        jButton8.setText("Clear Filter");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -338,7 +447,16 @@ public final class Home extends javax.swing.JFrame {
                         .addComponent(jButton2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton6)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jFormattedTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jFormattedTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jFormattedTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton7)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton8))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(23, 23, 23)
                         .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -376,7 +494,13 @@ public final class Home extends javax.swing.JFrame {
                     .addComponent(jButton4)
                     .addComponent(jButton1)
                     .addComponent(jButton2)
-                    .addComponent(jButton6))
+                    .addComponent(jButton6)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jFormattedTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jFormattedTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jFormattedTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButton7)
+                        .addComponent(jButton8)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 676, Short.MAX_VALUE)
@@ -400,9 +524,15 @@ public final class Home extends javax.swing.JFrame {
         if (sorter != null) {
             sorter.setRowFilter(null);
         }
+        
         jFormattedTextField1.setText("");
         jFormattedTextField2.setText("");
         jFormattedTextField3.setText("");
+        
+//        HintTextFieldUtil.addHint(jFormattedTextField1, "Year");
+//        HintTextFieldUtil.addHint(jFormattedTextField2, "Month");
+//        HintTextFieldUtil.addHint(jFormattedTextField3, "Day");
+        
         this.updateData();
     }//GEN-LAST:event_jButton4ActionPerformed
 
@@ -438,6 +568,7 @@ public final class Home extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         this.queue.removeFirstRowFromQueue();
         this.updateData();
+        this.updateData2();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -446,6 +577,52 @@ public final class Home extends javax.swing.JFrame {
         newDialog.setResizable(false);
         newDialog.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        String day = jFormattedTextField4.getText().trim();
+        String month = jFormattedTextField5.getText().trim();
+        String year = jFormattedTextField6.getText().trim();
+
+        TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(model1);
+        jTable2.setRowSorter(sorter);
+
+        if (!year.isEmpty() && month.isEmpty() && day.isEmpty()) {
+            sorter.setRowFilter(RowFilter.regexFilter(year + ".*", 4));
+        } else if (year.isEmpty() && !month.isEmpty() && day.isEmpty()) {
+            sorter.setRowFilter(RowFilter.regexFilter(".*-" + month + "-.*", 4));
+        } else if (year.isEmpty() && month.isEmpty() && !day.isEmpty()) {
+            sorter.setRowFilter(RowFilter.regexFilter(".*-.*-" + day + ".*", 4));
+        } else if (!year.isEmpty() && !month.isEmpty() && day.isEmpty()) {
+            sorter.setRowFilter(RowFilter.regexFilter(year + "-"+ month + "-.*", 4));
+        } else if (!year.isEmpty() && month.isEmpty() && !day.isEmpty()) {
+            sorter.setRowFilter(RowFilter.regexFilter(year + "-.*-" + day + ".*", 4));
+        } else if (year.isEmpty() && !month.isEmpty() && !day.isEmpty()) {
+            sorter.setRowFilter(RowFilter.regexFilter(".*-" + month + "-" + day + ".*", 4));
+        } else if (!year.isEmpty() && !month.isEmpty() && !day.isEmpty()) {
+            sorter.setRowFilter(RowFilter.regexFilter(year + "-" + month + "-" + day, 4));
+        } else {
+            sorter.setRowFilter(null);
+        }
+
+        updateDataAfterFilter2(sorter);
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        TableRowSorter<DefaultTableModel> sorter = (TableRowSorter<DefaultTableModel>) jTable2.getRowSorter();
+        if (sorter != null) {
+            sorter.setRowFilter(null);
+        }
+        
+        jFormattedTextField4.setText("");
+        jFormattedTextField5.setText("");
+        jFormattedTextField6.setText("");
+        
+//        HintTextFieldUtil.addHint(jFormattedTextField4, "Year");
+//        HintTextFieldUtil.addHint(jFormattedTextField5, "Month");
+//        HintTextFieldUtil.addHint(jFormattedTextField6, "Day");
+        
+        this.updateData2();
+    }//GEN-LAST:event_jButton8ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -483,31 +660,27 @@ public final class Home extends javax.swing.JFrame {
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
+    private javax.swing.JButton jButton8;
     private javax.swing.JFormattedTextField jFormattedTextField1;
     private javax.swing.JFormattedTextField jFormattedTextField2;
     private javax.swing.JFormattedTextField jFormattedTextField3;
+    private javax.swing.JFormattedTextField jFormattedTextField4;
+    private javax.swing.JFormattedTextField jFormattedTextField5;
+    private javax.swing.JFormattedTextField jFormattedTextField6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
-    private javax.swing.JPanel jPanel7;
-    private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;

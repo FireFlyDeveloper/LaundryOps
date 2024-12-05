@@ -137,7 +137,7 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        String username = jFormattedTextField1.getText();
+        String username = jFormattedTextField1.getText().trim();
         char[] password = jPasswordField1.getPassword();
 
         if (!"User Name".equals(username)) {
