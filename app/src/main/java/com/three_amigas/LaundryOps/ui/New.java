@@ -153,7 +153,7 @@ public class New extends javax.swing.JDialog {
             String month = jFormattedTextField1.getText();
             String day = jFormattedTextField2.getText();
             
-            String date = year + "/" + month + "/" + day;
+            String date = year + "-" + month + "-" + day;
             
             Customer customer = new Customer(name, number, email, date, false, false);
             
