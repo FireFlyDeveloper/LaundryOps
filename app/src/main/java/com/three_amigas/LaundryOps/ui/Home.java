@@ -2,13 +2,10 @@ package com.three_amigas.LaundryOps.ui;
 
 import com.three_amigas.LaundryOps.BackgroundPanel;
 import com.three_amigas.LaundryOps.CRUD;
-import com.three_amigas.LaundryOps.PriorityRowRenderer;
 import com.three_amigas.LaundryOps.Queue;
-import com.three_amigas.LaundryOps.RoundedBorder;
 import com.three_amigas.LaundryOps.RowRenderer;
 import java.awt.Color;
 import java.awt.Image;
-import java.awt.Insets;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.ImageIcon;
@@ -64,7 +61,7 @@ public final class Home extends javax.swing.JFrame {
         queue = new Queue(model, model1);
         
         jTable1.setModel(model);
-        jTable1.setDefaultRenderer(Object.class, new PriorityRowRenderer());
+        jTable1.setDefaultRenderer(Object.class, new RowRenderer());
         jTable2.setModel(model1);
         jTable2.setDefaultRenderer(Object.class, new RowRenderer());
         
@@ -111,6 +108,12 @@ public final class Home extends javax.swing.JFrame {
             String modelNumber = (String) model.getValueAt(0, 2);
             jLabel11.setText(modelName);
             jLabel13.setText(modelNumber);
+            
+            int lastRow = 0;
+            RowRenderer renderer = (RowRenderer) jTable1.getDefaultRenderer(Object.class);
+            renderer.setHighlightedRow(lastRow);
+
+            jTable1.repaint();
         } else {
             jLabel11.setText("N/A");
             jLabel13.setText("N/A");
@@ -207,6 +210,7 @@ public final class Home extends javax.swing.JFrame {
             }
         });
 
+        jTable2.setFont(new java.awt.Font("Poppins", 1, 18)); // NOI18N
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -220,6 +224,7 @@ public final class Home extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(jTable2);
 
+        jTable1.setFont(new java.awt.Font("Poppins", 1, 18)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
